@@ -373,8 +373,8 @@ namespace HomeWork_08
                             case 2: // JSON
                                 #region
                                 Console.Clear();
-                                workers.SerializationJSON(workers_list);
                                 departament.SerializationJSON(departament_list);
+                                workers.SerializationJSON(workers_list);
                                 Console.WriteLine("БД сохранена. Нажмите на любую клавишу...");
                                 Console.ReadKey();
                                 #endregion
@@ -407,8 +407,8 @@ namespace HomeWork_08
                             case 2: // JSON
                                 #region
                                 Console.Clear();
-                                workers_list = workers.DeSerializationJSON();
                                 departament_list = departament.DeSerializationJSON();
+                                workers_list = workers.DeSerializationJSON();
                                 Console.WriteLine("БД загружена. Нажмите на любую клавишу...");
                                 Console.ReadKey();
                                 #endregion

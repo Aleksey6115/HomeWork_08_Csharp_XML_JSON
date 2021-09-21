@@ -301,30 +301,30 @@ namespace HomeWork_08
         {
             Input input = new Input(); // Работа с вводом пользователя
 
-            Console.Write("Укажите путь к файлу, для сохранения списка департаментов: ");
-            string path = input.UserChoiceString();
+                    Console.Write("Укажите путь к файлу, для сохранения списка департаментов: ");
+                    string path = input.UserChoiceString();
 
-            XDocument xdoc = new XDocument(); // Работа с файлом
-            XElement departaments = new XElement("departaments"); // корневой элемент (условно List)
+                    XDocument xdoc = new XDocument(); // Работа с файлом
+                    XElement departaments = new XElement("departaments"); // корневой элемент (условно List)
 
-            for (int i = 0; i<departament_list.Count; i++)
-            {
-                XElement departament = new XElement("departament"); // Создаём элемент (экземпляр класса)
+                    for (int i = 0; i < departament_list.Count; i++)
+                    {
+                        XElement departament = new XElement("departament"); // Создаём элемент (экземпляр класса)
 
-                // Создаём атрибуты (Поля класса)
-                XAttribute name = new XAttribute("name", departament_list[i].Name);
-                XAttribute date = new XAttribute("date", departament_list[i].Date);
-                XAttribute count = new XAttribute("count", departament_list[i].Count);
+                        // Создаём атрибуты (Поля класса)
+                        XAttribute name = new XAttribute("name", departament_list[i].Name);
+                        XAttribute date = new XAttribute("date", departament_list[i].Date);
+                        XAttribute count = new XAttribute("count", departament_list[i].Count);
 
-                // Добовляем атрибуты к элементу (Формируем объект)
-                departament.Add(name);
-                departament.Add(date);
-                departament.Add(count);
+                        // Добовляем атрибуты к элементу (Формируем объект)
+                        departament.Add(name);
+                        departament.Add(date);
+                        departament.Add(count);
 
-                departaments.Add(departament); // Добавляем в корневой элемент
-            }
-            xdoc.Add(departaments);
-            xdoc.Save(path); // Записываем в файл
+                        departaments.Add(departament); // Добавляем в корневой элемент
+                    }
+                    xdoc.Add(departaments);
+                    xdoc.Save(path); // Записываем в файл
         }
 
         /// <summary>
@@ -335,11 +335,24 @@ namespace HomeWork_08
         {
             Input input = new Input(); // Работа с вводом пользователя
             List<Department> result = new List<Department>();
+            bool flag = false;
+            XDocument xdoc = new XDocument();
 
-            Console.Write("Укажите путь к файлу, для загрузки списка департаметов: ");
-            string path = input.UserChoiceString();
+            while (!flag)
+            {
+                try
+                {
+                    Console.Write("Укажите путь к файлу, для загрузки списка департаметов: ");
+                    string path = input.UserChoiceString();
 
-            XDocument xdoc = XDocument.Load(path); // Загружаем файл
+                    xdoc = XDocument.Load(path); // Загружаем файл
+                    flag = true;
+                }
+                catch
+                {
+                    Console.WriteLine("Что то пошло не так...");
+                }
+            }
 
             foreach (var xe in xdoc.Element("departaments").Elements("departament")) // Перебераем все элементы
             {
@@ -376,12 +389,24 @@ namespace HomeWork_08
         {
             Input input = new Input(); // Работа с вводом пользователя
             List<Department> result = new List<Department>();
+            bool flag = false;
 
-            Console.Write("Укажите путь к файлу, для загрузки списка департаметов: ");
-            string path = input.UserChoiceString();
+            while (!flag)
+            {
+                try
+                {
+                    Console.Write("Укажите путь к файлу, для загрузки списка департаметов: ");
+                    string path = input.UserChoiceString();
 
-            string json = File.ReadAllText(path);
-            result = JsonConvert.DeserializeObject<List<Department>>(json);
+                    string json = File.ReadAllText(path);
+                    result = JsonConvert.DeserializeObject<List<Department>>(json);
+                    flag = true;
+                }
+                catch
+                {
+                    Console.WriteLine("Что то пошло не так...");
+                }
+            }
             return result;
         }
         #endregion

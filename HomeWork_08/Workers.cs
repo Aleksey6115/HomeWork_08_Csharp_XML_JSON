@@ -449,13 +449,26 @@ namespace HomeWork_08
         /// <returns></returns>
         public List<Workers> DeSerializationXML()
         {
-            Input input = new Input(); // Работа с вводом пользователя
-
-            Console.Write("Укажите путь к файлу, для загрузки списка сотрудников: ");
-            string path = input.UserChoiceString();
-
             List<Workers> result = new List<Workers>();
-            XDocument xdoc = XDocument.Load(path); // Загружаем файл
+            Input input = new Input(); // Работа с вводом пользователя
+            XDocument xdoc = new XDocument();
+            bool flag = false;
+
+            while (!flag)
+            {
+                try
+                {
+                    Console.Write("Укажите путь к файлу, для загрузки списка сотрудников: ");
+                    string path = input.UserChoiceString();
+
+                    xdoc = XDocument.Load(path); // Загружаем файл
+                    flag = true;
+                }
+                catch
+                {
+                    Console.WriteLine("Что то пошло не так...");
+                }
+            }
 
             foreach (var xe in xdoc.Element("workers").Elements("worker")) // Перебераем все элементы
             {
@@ -496,12 +509,24 @@ namespace HomeWork_08
         {
             Input input = new Input(); // Работа с вводом пользователя
             List<Workers> result = new List<Workers>();
+            bool flag = false;
 
-            Console.Write("Укажите путь к файлу, для загрузки списка сотрудников: ");
-            string path = input.UserChoiceString();
+            while (!flag)
+            {
+                try
+                {
+                    Console.Write("Укажите путь к файлу, для загрузки списка сотрудников: ");
+                    string path = input.UserChoiceString();
 
-            string json = File.ReadAllText(path);
-            result = JsonConvert.DeserializeObject<List<Workers>>(json);
+                    string json = File.ReadAllText(path);
+                    result = JsonConvert.DeserializeObject<List<Workers>>(json);
+                    flag = true;
+                }
+                catch
+                {
+                    Console.WriteLine("Что то пошло не так...");
+                }
+            }
             return result;
         }
         #endregion
